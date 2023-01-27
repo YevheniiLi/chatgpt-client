@@ -1,14 +1,10 @@
 import "./App.css";
 import "./normal.css";
-import { useState, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 
 function App() {
-  useEffect(() => {
-    getEngines();
-  }, []);
 
   const [input, setInput] = useState("");
-  const [models, setModels] = useState([]);
   const [chatLog, setChatLog] = useState([
     {
       user: "gpt",
@@ -25,14 +21,12 @@ function App() {
     setChatLog([]);
   }
 
-  function getEngines(){
-    fetch("http://localhost:3080/models")
-      .then((res) => res.json())
-      .then(data => {
-        console.log(data.models.data)
-        setModels(data.models.data)
-      })
-  }
+  const dummy  = useRef(null);
+
+  useEffect(() => {
+    dummy.current.scrollIntoView({ 
+      behavior: 'smooth'});
+  },[chatLog]);  
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -40,6 +34,7 @@ function App() {
     setInput("");
     setChatLog(chatLogNew);
 
+    
     const messages = chatLogNew.map((message) => message.message).join("\n");
     const response = await fetch("http://localhost:3080/", {
       method: "POST",
@@ -57,18 +52,10 @@ function App() {
   return (
     <div className="App">
       <aside className="sidemenu">
+    
         <div className="side-menu-button" onClick={clearChat}>
           <span>+</span>
           New Chat
-        </div>
-        <div className="models">
-          <select>
-            {models && models.map((model, index) => (
-                <option key={model.id} value={model.id}>
-                  {model.id}
-                </option>
-              ))}
-          </select>
         </div>
       </aside>
       <section className="chatbox">
@@ -77,7 +64,6 @@ function App() {
             <ChatMessage key={index} message={message} />
           ))}
         </div>
-
         <div className="chat-input-holder">
           <form onSubmit={handleSubmit}>
             <input
@@ -87,6 +73,7 @@ function App() {
               className="chat-input-textarea"
             ></input>
           </form>
+          <div ref={dummy} />
         </div>
       </section>
     </div>
