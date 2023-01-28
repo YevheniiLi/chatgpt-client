@@ -3,7 +3,6 @@ import "./normal.css";
 import { useEffect, useState, useRef } from "react";
 
 function App() {
-
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([
     {
@@ -16,17 +15,17 @@ function App() {
     },
   ]);
 
-
   function clearChat() {
     setChatLog([]);
   }
 
-  const dummy  = useRef(null);
+  const dummy = useRef(null);
 
   useEffect(() => {
-    dummy.current.scrollIntoView({ 
-      behavior: 'smooth'});
-  },[chatLog]);  
+    dummy.current.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [chatLog]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -34,7 +33,6 @@ function App() {
     setInput("");
     setChatLog(chatLogNew);
 
-    
     const messages = chatLogNew.map((message) => message.message).join("\n");
     const response = await fetch("http://localhost:3080/", {
       method: "POST",
@@ -52,7 +50,6 @@ function App() {
   return (
     <div className="App">
       <aside className="sidemenu">
-    
         <div className="side-menu-button" onClick={clearChat}>
           <span>+</span>
           New Chat
