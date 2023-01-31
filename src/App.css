@@ -1,7 +1,7 @@
 .App {
   text-align: center;
   display: flex;
-  background-color: #282c34;
+  background-color: #343541;
   color: white;
   position: absolute;
   top: 0;
@@ -37,6 +37,13 @@
   flex: 1;
   background-color: #343541;
   position: relative;
+  overflow-y: scroll;
+  padding: 10px;
+  height: 80vh;
+
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
 }
 
 .chat-input-holder {
@@ -123,6 +130,13 @@ height: 40px;
   padding-right: 40px;
 }
 
+form {
+  height: 10vh;
+  position: fixed;
+  bottom: 0;
+  width: 1024px;
+
+}
 
 @keyframes App-logo-spin {
   from {
